@@ -5,6 +5,7 @@
 #include <winsock2.h>
 #include <iostream>
 #include <signal.h>
+#include <mutex>
 
 #pragma comment (lib, "ws2_32.lib")
 #pragma warning(disable:4996)
@@ -24,6 +25,7 @@ public:
 	void CloseSocket();
 
 private:
+	std::mutex mMtx;
 	WSADATA mWSAData;
 	SOCKET mServer;
 	SOCKET mClient;

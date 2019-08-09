@@ -10,7 +10,7 @@
 
 #pragma comment (lib, "ws2_32.lib")
 #pragma warning(disable:4996)
-//#define ALLOW_SERVER
+//#define ALLOW_PHASESPACE
 #define DEBUG
 
 class Communication
@@ -23,6 +23,7 @@ public:
 	// handling PhaseSpace data
 	int ConnectToPhaseSpace(const std::string& address);
 	void StartStreaming();
+	std::string SetMsg();
 	
 	// socket communication
 	void CreateSocket();

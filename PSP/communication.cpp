@@ -59,6 +59,7 @@ void Communication::StartStreaming()
 				{
 					if (m->cond > 0) // positive values are good condition values
 					{
+						//SetMsg(m->id, m->x, m->y, m->z);
 						mRecordData.SetCurData(m->id, m->x, m->y, m->z);
 						mMarkerCount++;
 					}
@@ -100,15 +101,17 @@ void Communication::ConnectToServer()
 
 void Communication::SendMsg()
 {
-	char buffer[4096] = { 'h', 'e', 'l', 'l', 'o' };
-	while (true && !flag)
-	{
-		std::cout << "[send] flag = " << flag << std::endl;
+	std::string data;
+	char buffer[50];
+	do {
+		data.assign("8, 2447.298828, 1076.380737, -61.742798");
+		strcpy(buffer, data.c_str());
 		if (send(mServer, buffer, sizeof(buffer), 0))
 		{
+			memset(buffer, 0, sizeof(buffer));
+			data.clear();
 		}
-	}
-
+	} while (!flag);
 }
 
 void Communication::CloseSocketComm()
