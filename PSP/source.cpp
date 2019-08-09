@@ -5,15 +5,17 @@
 #include <iostream>
 #include <owl/owl.hpp>
 #include "record_data.h"
-#include "server_communication.h"
+#include "communication.h"
 
 using namespace std;
 
 int gFlag = 0;
+Communication gCommunication;
 
 void ExitHandler(int s)
 {
-	gFlag = 1;
+	gCommunication.flag = 1;
+	std::cout << "flag = " << gCommunication.flag << std::endl;
 }
 
 int main(int argc, const char **argv)
@@ -24,11 +26,21 @@ int main(int argc, const char **argv)
 		return 0;
 	}
 
-	// create Ctrl+C handler, exit and save data upon pressing Ctrl+C
 	signal(SIGINT, ExitHandler);
 
-	string address = argv[1];
-	ServerCommunication serverCommunication(address);
+	// Connect to server first
+	gCommunication.CreateSocket();
+	gCommunication.ConnectToServer();		
+	gCommunication.SendMsg();
 
+	string address = argv[1];
+#ifdef ALLOW_PHASESPACE
+	if (gCommunication.ConnectToPhaseSpace(address))
+	{
+		gCommunication.StartStreaming();
+	}
+#endif
+
+	//gCommunication.CloseSocketComm();
 	return 0;
 }
