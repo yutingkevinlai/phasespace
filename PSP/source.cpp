@@ -30,7 +30,7 @@ int main(int argc, const char **argv)
 
 	// Connect to server first
 	gCommunication.CreateSocket();
-	gCommunication.ConnectToServer();		
+	gCommunication.BindAndListen();
 	gCommunication.SendMsg();
 
 	string address = argv[1];

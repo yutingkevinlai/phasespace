@@ -27,9 +27,10 @@ public:
 	
 	// socket communication
 	void CreateSocket();
+	void BindAndListen();
 	void ConnectToServer();
 	void SendMsg();
-	void CloseSocketComm();
+	void CloseSocket();
 
 	int flag;
 private:
@@ -39,6 +40,9 @@ private:
 	OWL::Markers mMarkers;
 	WSADATA mWSAData;
 	SOCKET mServer;
+	SOCKET mClient;
+	SOCKADDR_IN mServerAddr;
+	SOCKADDR_IN mClientAddr;
 	SOCKADDR_IN mAddr;
 };
 
