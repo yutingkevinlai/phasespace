@@ -78,45 +78,60 @@ void Communication::CreateSocket()
 	int isSocketOK = WSAStartup(MAKEWORD(2, 2), &mWSAData);
 	if (isSocketOK != 0)
 	{
-		std::cerr << "[Client] Cannot initialize winsock!" << std::endl;
+		std::cerr << "[Socket] Cannot initialize winsock!" << std::endl;
 		return;
 	}
 	mServer = socket(AF_INET, SOCK_STREAM, 0);
 	if (mServer == INVALID_SOCKET)
 	{
-		std::cerr << "[Client] Cannot create a socket!" << std::endl;
+		std::cerr << "[Socket] Cannot create a socket!" << std::endl;
 		return;
 	}
-	std::cout << "[Client] Socket created" << std::endl;
+	std::cout << "[Socket] Socket created" << std::endl;
 }
 
-void Communication::ConnectToServer()
+void Communication::BindAndListen()
 {
-	mAddr.sin_addr.s_addr = inet_addr("127.0.0.1"); // local ip
-	mAddr.sin_family = AF_INET;
-	mAddr.sin_port = htons(5555);
-	connect(mServer, (SOCKADDR*)&mAddr, sizeof(mAddr));
-	std::cout << "[Client] Connected to server!" << std::endl;
+	mServerAddr.sin_family = AF_INET;
+	mServerAddr.sin_addr.S_un.S_addr = inet_addr("127.0.0.1");
+	mServerAddr.sin_port = htons(5555);
+	bind(mServer, (sockaddr*)&mServerAddr, sizeof(mServerAddr));
+	listen(mServer, 0);
+	std::cout << "[Socket] listening for incoming connections." << std::endl;
+	int clientAddrSize = sizeof(mClientAddr);
+	if ((mClient = accept(
+		mServer, (SOCKADDR*)&mClientAddr, &clientAddrSize)) == INVALID_SOCKET)
+	{
+		std::cerr << "[Socket] Client not connected!" << std::endl;
+	}
+	std::cout << "[Socket] Client connected!" << std::endl;
 }
 
 void Communication::SendMsg()
 {
 	std::string data;
 	char buffer[50];
+	int result;
 	do {
 		data.assign("8, 2447.298828, 1076.380737, -61.742798");
 		strcpy(buffer, data.c_str());
-		if (send(mServer, buffer, sizeof(buffer), 0))
+		result = send(mClient, buffer, sizeof(buffer), 0);
+		std::cout << "result = " << result << std::endl;
+		if (result > 0)
 		{
 			memset(buffer, 0, sizeof(buffer));
 			data.clear();
 		}
+		else
+		{
+			BindAndListen();
+		}
 	} while (!flag);
 }
 
-void Communication::CloseSocketComm()
+void Communication::CloseSocket()
 {
-	std::cout << "[Client] Close socket communication" << std::endl;
+	std::cout << "[Socket] Close socket communication" << std::endl;
 	closesocket(mServer);
 	WSACleanup();
 }
