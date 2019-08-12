@@ -53,20 +53,18 @@ void Communication::StartStreaming()
 			if (event->find("markers", mMarkers) > 0)
 			{
 				mRecordData.SetCurFrameNum(event->time());
-				std::cout << "markers = " << mMarkers.size();
-				std::cout << ": " << std::endl;
 				mMarkerCount = 0;
 				for (OWL::Markers::iterator m = mMarkers.begin(); m != mMarkers.end(); m++)
 				{
 					if (m->cond > 0) // positive values are good condition values
 					{
-						SendMsg(ConvertDataToString(
-							event->time(), m->id, m->x, m->y, m->z));
+						ConvertDataToString(event->time(), m->id, m->x, m->y, m->z);
 						mRecordData.SetCurData(m->id, m->x, m->y, m->z);
 						mMarkerCount++;
 					}
 				} // end for
-				std::cout << "[Server] Find " << mMarkerCount << " markers." << std::endl;
+				std::cout << "[Server] Find " << mMarkerCount << " / ";
+				std::cout << mMarkers.size() << " markers." << std::endl;
 				mRecordData.SetDataPerFrame();
 			} // end if find markers
 		}
@@ -108,26 +106,33 @@ void Communication::BindAndListen()
 	std::cout << "[Socket] Client connected!" << std::endl;
 }
 
-std::string Communication::ConvertDataToString(
+void Communication::ConvertDataToString(
 	const int&frameNum, const int& id, 
 	const float& x, const float&y, const float& z)
 {
-	return std::to_string(frameNum) + ", " + std::to_string(id) + ", " + std::to_string(x) + ", " + std::to_string(y) + ", " + std::to_string(z);
+	mSocketData = std::to_string(frameNum) + ", " + std::to_string(id) + ", " + std::to_string(x) + ", " + std::to_string(y) + ", " + std::to_string(z);
 }
 
-void Communication::SendMsg(const std::string& data)
+void Communication::SendMsg()
 {
-#ifdef DEBUG
-	std::cout << "[Socket] Send message" << std::endl;
-#endif
-	char buffer[100];
-	int result;
-	strcpy(buffer, data.c_str());
-	result = send(mClient, buffer, sizeof(buffer), 0);
-	std::cout << "result not = " << !result << std::endl;
-	if (result < 0)
+	if (mSocketData.size() != 0)
 	{
-		BindAndListen();
+#ifdef DEBUG
+		std::cout << "[Socket] Send message" << std::endl;
+#endif
+		char buffer[100];
+		int result;
+		strcpy(buffer, mSocketData.c_str());
+		result = send(mClient, buffer, sizeof(buffer), 0);
+		if (result > 0)
+		{
+			memset(buffer, 0, sizeof(buffer));
+			mSocketData.clear();
+		}
+		else
+		{
+			BindAndListen();
+		}
 	}
 }
 

@@ -3,6 +3,8 @@
 #include <cstring>
 #include <ctime>
 #include <iostream>
+#include <thread>
+#include <chrono>
 #include <owl/owl.hpp>
 #include "record_data.h"
 #include "communication.h"
@@ -18,6 +20,26 @@ void ExitHandler(int s)
 	std::cout << "flag = " << gCommunication.flag << std::endl;
 }
 
+void PhaseSpaceStreaming(const std::string& address)
+{
+	std::cout << "Create phasespace thread" << std::endl;
+	if (gCommunication.ConnectToPhaseSpace(address))
+	{
+		gCommunication.StartStreaming();
+	}
+}
+
+void SocketStreaming()
+{
+	std::cout << "Create socket thread" << std::endl;
+	gCommunication.CreateSocket();
+	gCommunication.BindAndListen();
+	do {
+		std::this_thread::sleep_for(std::chrono::milliseconds(1));
+		gCommunication.SendMsg();
+	} while (!gCommunication.flag);
+}
+
 int main(int argc, const char **argv)
 {
 	if (argc <= 1)
@@ -28,19 +50,18 @@ int main(int argc, const char **argv)
 
 	signal(SIGINT, ExitHandler);
 
-	// Connect to server first
-	gCommunication.CreateSocket();
-	gCommunication.BindAndListen();
-	//gCommunication.SendMsgTest();
+	// Establish socket communication first
+	std::thread socketThread(SocketStreaming);
 
-	string address = argv[1];
+	// PhaseSpace streaming
 #ifdef ALLOW_PHASESPACE
-	if (gCommunication.ConnectToPhaseSpace(address))
-	{
-		gCommunication.StartStreaming();
-	}
+	string address = argv[1];
+	std::thread phasespaceThread(PhaseSpaceStreaming, address);
+	//PhaseSpaceStreaming(address);
+	phasespaceThread.join();
 #endif
 
+	socketThread.join();
 	gCommunication.CloseSocket();
 	return 0;
 }
