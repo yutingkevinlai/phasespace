@@ -37,6 +37,7 @@ int Communication::ConnectToPhaseSpace(const std::string& address)
 
 void Communication::StartStreaming()
 {
+	std::cout << "[Server] PhaseSpace server starts streaming." << std::endl;
 	mOwl.streaming(1);
 	while (mOwl.isOpen() && mOwl.property<int>("initialized") && !flag)
 	{
@@ -59,13 +60,13 @@ void Communication::StartStreaming()
 				{
 					if (m->cond > 0) // positive values are good condition values
 					{
-						//SetMsg(m->id, m->x, m->y, m->z);
+						SendMsg(ConvertDataToString(
+							event->time(), m->id, m->x, m->y, m->z));
 						mRecordData.SetCurData(m->id, m->x, m->y, m->z);
 						mMarkerCount++;
 					}
 				} // end for
-				std::cout << "[Server] Find " << mMarkerCount;
-				std::cout << " markers." << std::endl;
+				std::cout << "[Server] Find " << mMarkerCount << " markers." << std::endl;
 				mRecordData.SetDataPerFrame();
 			} // end if find markers
 		}
@@ -107,7 +108,30 @@ void Communication::BindAndListen()
 	std::cout << "[Socket] Client connected!" << std::endl;
 }
 
-void Communication::SendMsg()
+std::string Communication::ConvertDataToString(
+	const int&frameNum, const int& id, 
+	const float& x, const float&y, const float& z)
+{
+	return std::to_string(frameNum) + ", " + std::to_string(id) + ", " + std::to_string(x) + ", " + std::to_string(y) + ", " + std::to_string(z);
+}
+
+void Communication::SendMsg(const std::string& data)
+{
+#ifdef DEBUG
+	std::cout << "[Socket] Send message" << std::endl;
+#endif
+	char buffer[100];
+	int result;
+	strcpy(buffer, data.c_str());
+	result = send(mClient, buffer, sizeof(buffer), 0);
+	std::cout << "result not = " << !result << std::endl;
+	if (result < 0)
+	{
+		BindAndListen();
+	}
+}
+
+void Communication::SendMsgTest()
 {
 	std::string data;
 	char buffer[50];

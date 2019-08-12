@@ -39,7 +39,7 @@ API void SocketServer::ConnectToServer()
 
 API void SocketServer::ReceiveMsg()
 {
-	char buffer[50];
+	char buffer[100];
 	int result;
 	do {
 		result = recv(mServer, buffer, sizeof(buffer), 0);

@@ -31,7 +31,7 @@ int main(int argc, const char **argv)
 	// Connect to server first
 	gCommunication.CreateSocket();
 	gCommunication.BindAndListen();
-	gCommunication.SendMsg();
+	//gCommunication.SendMsgTest();
 
 	string address = argv[1];
 #ifdef ALLOW_PHASESPACE
