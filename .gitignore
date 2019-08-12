@@ -1,0 +1,6 @@
+PSP/Debug/
+PSP/Release/
+x64/
+Release/
+socket_server/Release/
+.vs/
