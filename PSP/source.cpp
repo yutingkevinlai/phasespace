@@ -41,6 +41,6 @@ int main(int argc, const char **argv)
 	}
 #endif
 
-	//gCommunication.CloseSocketComm();
+	gCommunication.CloseSocket();
 	return 0;
 }

@@ -93,7 +93,7 @@ void Communication::CreateSocket()
 void Communication::BindAndListen()
 {
 	mServerAddr.sin_family = AF_INET;
-	mServerAddr.sin_addr.S_un.S_addr = inet_addr("127.0.0.1");
+	mServerAddr.sin_addr.S_un.S_addr = inet_addr("127.0.1.1");
 	mServerAddr.sin_port = htons(5555);
 	bind(mServer, (sockaddr*)&mServerAddr, sizeof(mServerAddr));
 	listen(mServer, 0);
@@ -116,13 +116,12 @@ void Communication::SendMsg()
 		data.assign("8, 2447.298828, 1076.380737, -61.742798");
 		strcpy(buffer, data.c_str());
 		result = send(mClient, buffer, sizeof(buffer), 0);
-		std::cout << "result = " << result << std::endl;
 		if (result > 0)
 		{
 			memset(buffer, 0, sizeof(buffer));
 			data.clear();
 		}
-		else
+		else // listen again for client connection
 		{
 			BindAndListen();
 		}
