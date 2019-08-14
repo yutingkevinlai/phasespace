@@ -1,17 +1,17 @@
-#include "socket_server.h"
+#include "socket_client.h"
 
-API SocketServer::SocketServer()
+API SocketClient::SocketClient()
 {
 }
 
-API SocketServer::~SocketServer()
+API SocketClient::~SocketClient()
 {
 	closesocket(mClient);
 	WSACleanup();
 	std::cout << "[Socket] Socket closed." << std::endl;
 }
 
-API void SocketServer::CreateSocket()
+API void SocketClient::CreateSocket()
 {
 	int isSocketOK = WSAStartup(MAKEWORD(2, 2), &mWSAData);
 	if (isSocketOK != 0)
@@ -28,7 +28,7 @@ API void SocketServer::CreateSocket()
 	std::cout << "[Client] Socket created." << std::endl;
 }
 
-API void SocketServer::ConnectToServer()
+API void SocketClient::ConnectToServer()
 {
 	mAddr.sin_addr.s_addr = inet_addr("127.0.1.1"); // local ip
 	mAddr.sin_family = AF_INET;
@@ -37,7 +37,7 @@ API void SocketServer::ConnectToServer()
 	std::cout << "[Client] Connected to server!" << std::endl;
 }
 
-API void SocketServer::ReceiveMsg()
+API void SocketClient::ReceiveMsg()
 {
 	char buffer[100];
 	int result;
@@ -63,7 +63,7 @@ API void SocketServer::ReceiveMsg()
 	} while (result > 0);
 }
 
-API void SocketServer::ReceiveMsgOnce()
+API void SocketClient::ReceiveMsgOnce()
 {
 	char buffer[100];
 	int result;
@@ -84,7 +84,7 @@ API void SocketServer::ReceiveMsgOnce()
 	}
 }
 
-API void SocketServer::CloseSocket()
+API void SocketClient::CloseSocket()
 {
 	closesocket(mClient);
 	WSACleanup();

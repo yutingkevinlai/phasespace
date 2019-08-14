@@ -18,12 +18,12 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="socket_server.cpp">
+    <ClCompile Include="socket_client.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="socket_server.h">
+    <ClInclude Include="socket_client.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
