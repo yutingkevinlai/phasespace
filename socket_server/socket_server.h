@@ -22,9 +22,9 @@ public:
 
 	// socket communication
 	void CreateSocket();
-	void BindAndListen();
 	void ConnectToServer();
 	void ReceiveMsg();
+	void ReceiveMsgOnce();
 	void CloseSocket();
 
 private:
