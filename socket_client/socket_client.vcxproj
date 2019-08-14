@@ -19,11 +19,11 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{E3138442-A046-467E-838D-9FF46FD21629}</ProjectGuid>
+    <ProjectGuid>{CB367972-41CC-46E5-A305-2305441224CC}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>socket_client</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
-    <ProjectName>socket_server</ProjectName>
+    <ProjectName>socket_client</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -147,11 +147,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="socket_server.h" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="socket_client.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="socket_server.cpp" />
+    <ClInclude Include="socket_client.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

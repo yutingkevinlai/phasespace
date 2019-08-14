@@ -1,5 +1,5 @@
-#ifndef SOCKET_SERVER_H
-#define SOCKET_SERVER_H
+#ifndef SOCKET_CLIENT_H
+#define SOCKET_CLIENT_H
 
 
 #define API __declspec(dllexport)
@@ -14,11 +14,11 @@
 
 //#define ALLOW_SERVER
 
-class API SocketServer
+class API SocketClient
 {
 public:
-	SocketServer();
-	~SocketServer();
+	SocketClient();
+	~SocketClient();
 
 	// socket communication
 	void CreateSocket();
@@ -36,4 +36,4 @@ private:
 	SOCKADDR_IN mAddr;
 };
 
-#endif // !SOCKET_SERVER_H
+#endif // !SOCKET_CLIENT_H
