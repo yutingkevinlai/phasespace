@@ -63,6 +63,27 @@ API void SocketServer::ReceiveMsg()
 	} while (result > 0);
 }
 
+API void SocketServer::ReceiveMsgOnce()
+{
+	char buffer[100];
+	int result;
+	result = recv(mServer, buffer, sizeof(buffer), 0);
+	if (result > 0)
+	{
+		std::cout << "[Client] Received data: " << buffer << std::endl;
+	}
+	else if (result == 0)
+	{
+		std::cout << "[Client] Server closed." << std::endl;
+		CloseSocket();
+	}
+	else
+	{
+		std::cerr << "[Client] Receive data failed. Closing." << std::endl;
+		CloseSocket();
+	}
+}
+
 API void SocketServer::CloseSocket()
 {
 	closesocket(mClient);

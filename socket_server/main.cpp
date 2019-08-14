@@ -6,7 +6,7 @@ int main(int argc, const char **argv)
 	SocketServer socketServer;
 	socketServer.CreateSocket();
 	socketServer.ConnectToServer();
-	socketServer.ReceiveMsg();
+	socketServer.ReceiveMsgOnce();
 	//socketServer.CloseSocket();
 	return 0;
 }
