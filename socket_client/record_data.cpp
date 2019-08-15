@@ -35,18 +35,47 @@ void RecordData::SetCurFrameNum(const int& frameNum)
 	mCurFrameNum = frameNum;
 }
 
-void RecordData::SetCurData(const int& id, 
-	const float& x, const float& y, const float& z)
+void RecordData::SetCurData(const std::string& data)
 {
-	std::string value = std::to_string(x) + ", " + std::to_string(y) + ", " + std::to_string(z);
-	mIDValues[std::to_string(id)] = value;
+	std::string delimiter = ",";
+	std::string token;
+	std::string trimmedData(data.c_str());
+	int count = 0;
+	size_t pos = 0;
+	while ((pos = trimmedData.find(delimiter)) != std::string::npos)
+	{
+		token = trimmedData.substr(0, pos);
+		if (count == 0)
+		{
+			std::cout << trimmedData << std::endl;
+			mCurFrameNum = token;
+			std::cout << "frame num = " << mCurFrameNum << std::endl;
+		}
+		else if (count == 1)
+		{
+			std::cout << trimmedData << std::endl;
+			mID = token;
+			std::cout << "ID = " << mID << std::endl;
+		}
+		else
+		{
+			std::cout << trimmedData << std::endl;
+			mPosition.assign(trimmedData);
+			std::cout << "position = " << mPosition << std::endl;
+			break;
+		}
+		trimmedData.erase(0, pos + delimiter.length());
+		count++;
+	}
+	mIDValues[mID] = mPosition;
+	SetDataPerFrame();
 }
 
 void RecordData::SetDataPerFrame()
 {
 	if (mIDValues.size())
 	{
-		mJsonRoot[std::to_string(mCurFrameNum)] = mIDValues;
+		mJsonRoot[mCurFrameNum] = mIDValues;
 		mIDValues.clear();
 	}
 }

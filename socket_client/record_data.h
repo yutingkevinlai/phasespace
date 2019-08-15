@@ -8,7 +8,6 @@
 #include <sstream>
 #include <memory>
 
-#include <owl/owl.hpp>
 #include <json/json.h>
 #include <json/value.h>
 #include <json/writer.h>
@@ -20,12 +19,14 @@ public:
 	~RecordData();
 	void OpenJsonFile(const std::string& filename);
 	void SetCurFrameNum(const int& frameNum);
-	void SetCurData(const int& id, const float& x, const float& y, const float& z);
+	void SetCurData(const std::string& data);
 	void SetDataPerFrame();
 	void WriteToJsonFile();
 
 private:
-	int mCurFrameNum;
+	std::string mCurFrameNum;
+	std::string mID;
+	std::string mPosition;
 	std::ofstream mFile;
 	std::string mJsonFilename;
 	Json::Value mIDValues;
