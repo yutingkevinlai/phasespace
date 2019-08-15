@@ -1,7 +1,6 @@
 #ifndef SOCKET_CLIENT_H
 #define SOCKET_CLIENT_H
 
-
 #define API __declspec(dllexport)
 #pragma once
 
@@ -12,8 +11,6 @@
 
 #pragma comment (lib, "ws2_32.lib")
 #pragma warning(disable:4996)
-
-//#define ALLOW_SERVER
 
 class API SocketClient
 {

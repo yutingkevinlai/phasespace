@@ -12,13 +12,14 @@
 #include <json/value.h>
 #include <json/writer.h>
 
+#define DEBUG
+
 class RecordData
 {
 public:
 	RecordData();
 	~RecordData();
 	void OpenJsonFile(const std::string& filename);
-	void SetCurFrameNum(const int& frameNum);
 	void SetCurData(const std::string& data);
 	void SetDataPerFrame();
 	void WriteToJsonFile();
