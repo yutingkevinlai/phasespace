@@ -11,12 +11,12 @@
 RecordData::RecordData()
 	: mJsonFilename("data_received.json")
 {
-	OpenJsonFile(mJsonFilename);
+	//OpenJsonFile(mJsonFilename);
 }
 
 RecordData::~RecordData()
 {
-	WriteToJsonFile();
+	//WriteToJsonFile();
 	mFile.close();
 }
 
@@ -28,11 +28,6 @@ void RecordData::OpenJsonFile(const std::string& filename)
 		std::cout << "[Record] File creation incomplete!" << std::endl;
 	}
 	return;
-}
-
-void RecordData::SetCurFrameNum(const int& frameNum)
-{
-	mCurFrameNum = frameNum;
 }
 
 void RecordData::SetCurData(const std::string& data)
@@ -47,21 +42,18 @@ void RecordData::SetCurData(const std::string& data)
 		token = trimmedData.substr(0, pos);
 		if (count == 0)
 		{
-			std::cout << trimmedData << std::endl;
 			mCurFrameNum = token;
-			std::cout << "frame num = " << mCurFrameNum << std::endl;
+			std::cout << "[Record] Frame num = " << mCurFrameNum << std::endl;
 		}
 		else if (count == 1)
 		{
-			std::cout << trimmedData << std::endl;
 			mID = token;
-			std::cout << "ID = " << mID << std::endl;
+			std::cout << "[Record] ID = " << mID << std::endl;
 		}
 		else
 		{
-			std::cout << trimmedData << std::endl;
 			mPosition.assign(trimmedData);
-			std::cout << "position = " << mPosition << std::endl;
+			std::cout << "[Record] Position = " << mPosition << std::endl;
 			break;
 		}
 		trimmedData.erase(0, pos + delimiter.length());

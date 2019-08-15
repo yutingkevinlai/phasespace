@@ -45,7 +45,7 @@ API void SocketClient::ReceiveMsg()
 		result = recv(mServer, buffer, sizeof(buffer), 0);
 		if (result > 0)
 		{
-			std::cout << "[Client] Received data: " << buffer << std::endl;
+			std::cout << "[Client] Received data" << std::endl;
 			mRecordData.SetCurData(buffer);
 		}
 		else if (result == 0)
@@ -71,7 +71,8 @@ API void SocketClient::ReceiveMsgOnce()
 	result = recv(mServer, buffer, sizeof(buffer), 0);
 	if (result > 0)
 	{
-		std::cout << "[Client] Received data: " << buffer << std::endl;
+		std::cout << "[Client] Received data" << std::endl;
+		mRecordData.SetCurData(buffer);
 	}
 	else if (result == 0)
 	{

@@ -1,7 +1,7 @@
 #include "socket_client.h"
 #include <signal.h>
 
-#define OFFLINE
+//#define OFFLINE
 
 int main(int argc, const char **argv)
 {
