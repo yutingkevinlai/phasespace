@@ -27,6 +27,10 @@ void PhaseSpaceStreaming(const std::string& address)
 	{
 		gCommunication.StartStreaming();
 	}
+	else
+	{
+		exit(1);
+	}
 }
 
 void SocketStreaming()
@@ -42,11 +46,11 @@ void SocketStreaming()
 
 int main(int argc, const char **argv)
 {
-	if (argc <= 1)
-	{
-		cout << "[Main] Please provide a host IP address" << endl;
-		return 0;
-	}
+	// read PhaseSpace IP address
+	std::string phasespaceIP;
+	std::ios_base::sync_with_stdio(false);
+	std::cin.tie(0);
+	std::cin >> phasespaceIP;
 
 	signal(SIGINT, ExitHandler);
 
@@ -54,13 +58,9 @@ int main(int argc, const char **argv)
 	std::thread socketThread(SocketStreaming);
 
 	// PhaseSpace streaming
-#ifdef ALLOW_PHASESPACE
-	string address = argv[1];
-	std::thread phasespaceThread(PhaseSpaceStreaming, address);
-	//PhaseSpaceStreaming(address);
+	std::thread phasespaceThread(PhaseSpaceStreaming, phasespaceIP);
+	
 	phasespaceThread.join();
-#endif
-
 	socketThread.join();
 	gCommunication.CloseSocket();
 	return 0;
