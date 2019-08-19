@@ -8,7 +8,7 @@ Communication::Communication()
 Communication::~Communication()
 {
 #ifdef DEBUG
-	std::cout << "Clean all connections" << std::endl;
+	std::cout << "Clean all connections" << '\n';
 #endif
 	mOwl.done();
 	mOwl.close();
@@ -25,19 +25,19 @@ int Communication::ConnectToPhaseSpace(const std::string& address)
 {
 	if(mOwl.open(address) <= 0 | mOwl.initialize() <= 0)
 	{
-		std::cerr << "[Server] Cannot connect and initialize..." << std::endl;
+		std::cerr << "[Server] Cannot connect and initialize..." << '\n';
 		std::cerr << "[Server] Check (1) Is the server operating? or ";
 		std::cerr << "(2) Is the IP address valid ? or ";
-		std::cerr << "(3) Is the cable connected ?" << std::endl;
+		std::cerr << "(3) Is the cable connected ?" << '\n';
 		return 0;
 	}
-	std::cout << "[Server] PhaseSpace communication established" << std::endl;
+	std::cout << "[Server] PhaseSpace communication established" << '\n';
 	return 1;
 }
 
 void Communication::StartStreaming()
 {
-	std::cout << "[Server] PhaseSpace server starts streaming." << std::endl;
+	std::cout << "[Server] PhaseSpace server starts streaming." << '\n';
 	mOwl.streaming(1);
 	while (mOwl.isOpen() && mOwl.property<int>("initialized") && !flag)
 	{
@@ -46,7 +46,7 @@ void Communication::StartStreaming()
 
 		if (event->type_id() == OWL::Type::ERROR)
 		{
-			std::cerr << event->name() << ": " << event->str() << std::endl;
+			std::cerr << event->name() << ": " << event->str() << '\n';
 		}
 		else if (event->type_id() == OWL::Type::FRAME)
 		{
@@ -63,8 +63,8 @@ void Communication::StartStreaming()
 						mMarkerCount++;
 					}
 				} // end for
-				std::cout << "[Server] Find " << mMarkerCount << " / ";
-				std::cout << mMarkers.size() << " markers." << std::endl;
+				//std::cout << "[Server] Find " << mMarkerCount << " / ";
+				//std::cout << mMarkers.size() << " markers." << std::endl;
 				mRecordData.SetDataPerFrame();
 			} // end if find markers
 		}
@@ -77,33 +77,37 @@ void Communication::CreateSocket()
 	int isSocketOK = WSAStartup(MAKEWORD(2, 2), &mWSAData);
 	if (isSocketOK != 0)
 	{
-		std::cerr << "[Socket] Cannot initialize winsock!" << std::endl;
+		std::cerr << "[Socket] Cannot initialize winsock!" << '\n';
 		return;
 	}
 	mServer = socket(AF_INET, SOCK_STREAM, 0);
 	if (mServer == INVALID_SOCKET)
 	{
-		std::cerr << "[Socket] Cannot create a socket!" << std::endl;
+		std::cerr << "[Socket] Cannot create a socket!" << '\n';
 		return;
 	}
-	std::cout << "[Socket] Socket created" << std::endl;
+	std::cout << "[Socket] Socket created" << '\n';
 }
 
 void Communication::BindAndListen()
 {
 	mServerAddr.sin_family = AF_INET;
-	mServerAddr.sin_addr.S_un.S_addr = inet_addr("127.0.1.1");
+	//mServerAddr.sin_addr.S_un.S_addr = inet_addr("127.0.1.1");
+	mServerAddr.sin_addr.S_un.S_addr = INADDR_ANY;
 	mServerAddr.sin_port = htons(5555);
 	bind(mServer, (sockaddr*)&mServerAddr, sizeof(mServerAddr));
 	listen(mServer, 0);
-	std::cout << "[Socket] listening for incoming connections." << std::endl;
+	std::cout << "[Socket] listening for incoming connections." << '\n';
 	int clientAddrSize = sizeof(mClientAddr);
 	if ((mClient = accept(
 		mServer, (SOCKADDR*)&mClientAddr, &clientAddrSize)) == INVALID_SOCKET)
 	{
-		std::cerr << "[Socket] Client not connected!" << std::endl;
+		std::cerr << "[Socket] Client not connected!" << '\n';
 	}
-	std::cout << "[Socket] Client connected!" << std::endl;
+	else
+	{
+		std::cout << "[Socket] Client connected!" << '\n';
+	}
 }
 
 void Communication::ConvertDataToString(
@@ -118,7 +122,7 @@ void Communication::SendMsg()
 	if (mSocketData.size() != 0)
 	{
 #ifdef DEBUG
-		std::cout << "[Socket] Send message" << std::endl;
+		std::cout << "[Socket] Send message" << '\n';
 #endif
 		char buffer[100];
 		int result;
@@ -159,7 +163,7 @@ void Communication::SendMsgTest()
 
 void Communication::CloseSocket()
 {
-	std::cout << "[Socket] Close socket communication" << std::endl;
+	std::cout << "[Socket] Close socket communication" << '\n';
 	closesocket(mServer);
 	WSACleanup();
 }
