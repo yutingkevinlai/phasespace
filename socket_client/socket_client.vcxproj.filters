@@ -21,15 +21,9 @@
     <ClCompile Include="socket_client.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="record_data.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="socket_client.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="record_data.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
