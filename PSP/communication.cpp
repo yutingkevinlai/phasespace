@@ -92,8 +92,7 @@ void Communication::CreateSocket()
 void Communication::BindAndListen()
 {
 	mServerAddr.sin_family = AF_INET;
-	//mServerAddr.sin_addr.S_un.S_addr = inet_addr("127.0.1.1");
-	mServerAddr.sin_addr.S_un.S_addr = INADDR_ANY;
+	mServerAddr.sin_addr.S_un.S_addr = inet_addr("192.168.50.19");
 	mServerAddr.sin_port = htons(5555);
 	bind(mServer, (sockaddr*)&mServerAddr, sizeof(mServerAddr));
 	listen(mServer, 0);
