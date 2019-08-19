@@ -11,7 +11,6 @@
 
 #pragma comment (lib, "ws2_32.lib")
 #pragma warning(disable:4996)
-#define ALLOW_PHASESPACE
 #define DEBUG
 
 class Communication

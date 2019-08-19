@@ -7,7 +7,7 @@
 #include <winsock2.h>
 #include <iostream>
 #include <signal.h>
-#include "record_data.h"
+//#include "record_data.h"
 
 #pragma comment (lib, "ws2_32.lib")
 #pragma warning(disable:4996)
@@ -22,7 +22,7 @@ public:
 	void CreateSocket();
 	void ConnectToServer();
 	void ReceiveMsg();
-	void ReceiveMsgOnce();
+	int ReceiveMsgOnce();
 	void CloseSocket();
 
 private:
@@ -32,7 +32,7 @@ private:
 	SOCKADDR_IN mServerAddr;
 	SOCKADDR_IN mClientAddr;
 	SOCKADDR_IN mAddr;
-	RecordData mRecordData;
+	//RecordData mRecordData;
 };
 
 #endif // !SOCKET_CLIENT_H
