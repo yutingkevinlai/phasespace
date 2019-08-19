@@ -30,7 +30,7 @@ API void SocketClient::CreateSocket()
 
 API void SocketClient::ConnectToServer()
 {
-	mAddr.sin_addr.s_addr = inet_addr("127.0.1.1"); // local ip
+	mAddr.sin_addr.s_addr = inet_addr("192.168.50.19"); // local ip
 	mAddr.sin_family = AF_INET;
 	mAddr.sin_port = htons(5555);
 	if (connect(mServer, (SOCKADDR*)&mAddr, sizeof(mAddr)))
