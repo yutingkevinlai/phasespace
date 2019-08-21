@@ -5,3 +5,6 @@ Release/
 socket_server/x64/
 socket_server/Release/
 .vs/
+
+# ignore all json files
+*.json
