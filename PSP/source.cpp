@@ -44,11 +44,6 @@ void SocketHostStreaming()
 	} while (!gCommunication.flag);
 }
 
-void SocketTargetStreaming()
-{
-	
-}
-
 int main(int argc, const char **argv)
 {
 	// read PhaseSpace IP address
@@ -62,15 +57,11 @@ int main(int argc, const char **argv)
 	// TCP socket to host threading
 	std::thread socketHostThread(SocketHostStreaming);
 
-	// UDP socket to target threading
-	std::thread socketTargetThread(SocketTargetStreaming);
-
 	// PhaseSpace streaming
 	std::thread phasespaceThread(PhaseSpaceStreaming, phasespaceIP);
 	
 	phasespaceThread.join();
 	socketHostThread.join();
-	socketTargetThread.join();
 	gCommunication.CloseSocket();
 	return 0;
 }

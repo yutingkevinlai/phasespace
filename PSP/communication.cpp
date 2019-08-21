@@ -128,7 +128,6 @@ void Communication::SendMsg()
 		char buffer[100] = {0};
 		int result;
 		strcpy(buffer, mSocketData.c_str());
-		std::cout << "buffer: " << buffer << std::endl;
 		result = send(mClient, buffer, sizeof(buffer), 0);
 		if (result > 0)
 		{
