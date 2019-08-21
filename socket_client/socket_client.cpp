@@ -8,7 +8,6 @@ API SocketClient::~SocketClient()
 {
 	closesocket(mClient);
 	WSACleanup();
-	std::cout << "[Socket] Socket closed." << '\n';
 }
 
 API void SocketClient::CreateSocket()
@@ -25,7 +24,6 @@ API void SocketClient::CreateSocket()
 		std::cerr << "[Client] Cannot create a socket!" << '\n';
 		return;
 	}
-	std::cout << "[Client] Socket created." << '\n';
 }
 
 API void SocketClient::ConnectToServer()
@@ -33,13 +31,10 @@ API void SocketClient::ConnectToServer()
 	mAddr.sin_addr.s_addr = inet_addr("192.168.50.19"); // local ip
 	mAddr.sin_family = AF_INET;
 	mAddr.sin_port = htons(5555);
-	if (connect(mServer, (SOCKADDR*)&mAddr, sizeof(mAddr)))
-	{
-		std::cout << "[Client] Connected to server!" << '\n';
-	}
-	else
+	if (!connect(mServer, (SOCKADDR*)&mAddr, sizeof(mAddr)))
 	{
 		std::cerr << "[Client] Cannot connect to server" << '\n';
+		//std::cout << "[Client] Connected to server!" << '\n';
 	}
 }
 
@@ -51,18 +46,18 @@ API void SocketClient::ReceiveMsg()
 		result = recv(mServer, buffer, sizeof(buffer), 0);
 		if (result > 0)
 		{
-			std::cout << "[Client] Received data" << '\n';
+			//std::cout << "[Client] Received data" << '\n';
 			//mRecordData.SetCurData(buffer);
 		}
 		else if (result == 0)
 		{
-			std::cout << "[Client] Server closed." << '\n';
+			//std::cout << "[Client] Server closed." << '\n';
 			CloseSocket();
 			break;
 		}
 		else
 		{
-			std::cerr << "[Client] Receive data failed. Closing." << '\n';
+			//std::cerr << "[Client] Receive data failed. Closing." << '\n';
 			CloseSocket();
 			break;
 		}
@@ -73,17 +68,20 @@ API void SocketClient::ReceiveMsg()
 API int SocketClient::ReceiveMsgOnce()
 {
 	char buffer[100];
+	char test[4];
 	int result;
 	result = recv(mServer, buffer, sizeof(buffer), 0);
 	if (result > 0)
 	{
-		std::cout << "[Client] Received data: " << buffer << '\n';
+		strcpy(test, buffer);
+		std::cout << test << '\n';
+		//std::cout << "[Client] Received data: " << buffer << '\n';
 		//mRecordData.SetCurData(buffer);
 		return 1;
 	}
 	else if (result == 0)
 	{
-		std::cout << "[Client] Server closed." << '\n';
+		//std::cout << "[Client] Server closed." << '\n';
 		CloseSocket();
 		return -1;
 	}
@@ -99,5 +97,4 @@ API void SocketClient::CloseSocket()
 {
 	closesocket(mClient);
 	WSACleanup();
-	std::cout << "[Client] Socket closed" << '\n';
 }
