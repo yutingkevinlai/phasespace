@@ -92,8 +92,8 @@ void Communication::CreateSocket()
 void Communication::BindAndListen()
 {
 	mServerAddr.sin_family = AF_INET;
-	//mServerAddr.sin_addr.S_un.S_addr = inet_addr("192.168.50.19");
-	mServerAddr.sin_addr.S_un.S_addr = inet_addr("127.0.0.1");
+	mServerAddr.sin_addr.S_un.S_addr = inet_addr("192.168.50.19");
+	//mServerAddr.sin_addr.S_un.S_addr = inet_addr("127.0.0.1");
 	//mServerAddr.sin_addr.S_un.S_addr = INADDR_ANY;
 	mServerAddr.sin_port = htons(5555);
 	bind(mServer, (sockaddr*)&mServerAddr, sizeof(mServerAddr));
@@ -125,9 +125,10 @@ void Communication::SendMsg()
 #ifdef DEBUG
 		//std::cout << "[Socket] Send message" << '\n';
 #endif
-		char buffer[100];
+		char buffer[100] = {0};
 		int result;
 		strcpy(buffer, mSocketData.c_str());
+		std::cout << "buffer: " << buffer << std::endl;
 		result = send(mClient, buffer, sizeof(buffer), 0);
 		if (result > 0)
 		{
