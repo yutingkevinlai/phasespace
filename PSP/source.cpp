@@ -22,26 +22,31 @@ void ExitHandler(int s)
 
 void PhaseSpaceStreaming(const std::string& address)
 {
-	std::cout << "Create phasespace thread" << std::endl;
+	// create phasespace thread
 	if (gCommunication.ConnectToPhaseSpace(address))
 	{
 		gCommunication.StartStreaming();
 	}
 	else
 	{
-		exit(1);
+		exit(-1);
 	}
 }
 
-void SocketStreaming()
+void SocketHostStreaming()
 {
-	std::cout << "Create socket thread" << std::endl;
+	// create socket thread
 	gCommunication.CreateSocket();
 	gCommunication.BindAndListen();
 	do {
 		std::this_thread::sleep_for(std::chrono::milliseconds(1));
 		gCommunication.SendMsg();
 	} while (!gCommunication.flag);
+}
+
+void SocketTargetStreaming()
+{
+	
 }
 
 int main(int argc, const char **argv)
@@ -54,14 +59,18 @@ int main(int argc, const char **argv)
 
 	signal(SIGINT, ExitHandler);
 
-	// Establish socket communication first
-	std::thread socketThread(SocketStreaming);
+	// TCP socket to host threading
+	std::thread socketHostThread(SocketHostStreaming);
+
+	// UDP socket to target threading
+	std::thread socketTargetThread(SocketTargetStreaming);
 
 	// PhaseSpace streaming
 	std::thread phasespaceThread(PhaseSpaceStreaming, phasespaceIP);
 	
 	phasespaceThread.join();
-	socketThread.join();
+	socketHostThread.join();
+	socketTargetThread.join();
 	gCommunication.CloseSocket();
 	return 0;
 }

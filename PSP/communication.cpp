@@ -64,7 +64,7 @@ void Communication::StartStreaming()
 					}
 				} // end for
 				//std::cout << "[Server] Find " << mMarkerCount << " / ";
-				//std::cout << mMarkers.size() << " markers." << std::endl;
+				//std::cout << mMarkers.size() << " markers." << '\n';
 				mRecordData.SetDataPerFrame();
 			} // end if find markers
 		}
@@ -92,7 +92,9 @@ void Communication::CreateSocket()
 void Communication::BindAndListen()
 {
 	mServerAddr.sin_family = AF_INET;
-	mServerAddr.sin_addr.S_un.S_addr = inet_addr("192.168.50.19");
+	//mServerAddr.sin_addr.S_un.S_addr = inet_addr("192.168.50.19");
+	mServerAddr.sin_addr.S_un.S_addr = inet_addr("127.0.0.1");
+	//mServerAddr.sin_addr.S_un.S_addr = INADDR_ANY;
 	mServerAddr.sin_port = htons(5555);
 	bind(mServer, (sockaddr*)&mServerAddr, sizeof(mServerAddr));
 	listen(mServer, 0);
@@ -121,7 +123,7 @@ void Communication::SendMsg()
 	if (mSocketData.size() != 0)
 	{
 #ifdef DEBUG
-		std::cout << "[Socket] Send message" << '\n';
+		//std::cout << "[Socket] Send message" << '\n';
 #endif
 		char buffer[100];
 		int result;
