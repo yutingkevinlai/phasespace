@@ -115,7 +115,7 @@ void Communication::ConvertDataToString(
 	const int&frameNum, const int& id, 
 	const float& x, const float&y, const float& z)
 {
-	mSocketData = std::to_string(frameNum) + "," + std::to_string(id) + "," + std::to_string(x) + "," + std::to_string(y) + "," + std::to_string(z);
+	mSocketData = std::to_string(frameNum) + "," + std::to_string(id) + "," + std::to_string(x) + "," + std::to_string(y) + "," + std::to_string(z) + ",";
 }
 
 void Communication::SendMsg()
