@@ -50,6 +50,7 @@ int main(int argc, const char **argv)
 	std::string phasespaceIP;
 	std::ios_base::sync_with_stdio(false);
 	std::cin.tie(0);
+	std::cout << "[Server] Please enter PhaseSpace IP address (default: 192.168.1.230): " << '\n';
 	std::cin >> phasespaceIP;
 
 	signal(SIGINT, ExitHandler);
