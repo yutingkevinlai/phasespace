@@ -7,7 +7,6 @@
 #include <winsock2.h>
 #include <iostream>
 #include <signal.h>
-//#include "record_data.h"
 
 #pragma comment (lib, "ws2_32.lib")
 #pragma warning(disable:4996)
@@ -32,7 +31,6 @@ private:
 	SOCKADDR_IN mServerAddr;
 	SOCKADDR_IN mClientAddr;
 	SOCKADDR_IN mAddr;
-	//RecordData mRecordData;
 };
 
 #endif // !SOCKET_CLIENT_H
