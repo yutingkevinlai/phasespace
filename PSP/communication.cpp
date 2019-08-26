@@ -131,6 +131,7 @@ void Communication::SendMsg()
 		result = send(mClient, buffer, sizeof(buffer), 0);
 		if (result > 0)
 		{
+			std::cout << "[Socket] Send message: " << buffer << '\n';
 			memset(buffer, 0, sizeof(buffer));
 			mSocketData.clear();
 		}
