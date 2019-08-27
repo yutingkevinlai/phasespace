@@ -16,8 +16,8 @@ Communication gCommunication;
 
 void ExitHandler(int s)
 {
+	std::cout << "Ctrl+C detected!" << '\n';
 	gCommunication.flag = 1;
-	std::cout << "flag = " << gCommunication.flag << std::endl;
 }
 
 void PhaseSpaceStreaming(const std::string& address)
@@ -31,6 +31,8 @@ void PhaseSpaceStreaming(const std::string& address)
 	{
 		exit(-1);
 	}
+	std::cout << "[Server] PhaseSpace stop streaming." << '\n';
+	return;
 }
 
 void SocketHostStreaming()
@@ -42,6 +44,7 @@ void SocketHostStreaming()
 		//std::this_thread::sleep_for(std::chrono::milliseconds(1));
 		gCommunication.SendMsg();
 	} while (!gCommunication.flag);
+	return;
 }
 
 int main(int argc, const char **argv)
@@ -50,7 +53,7 @@ int main(int argc, const char **argv)
 	std::string phasespaceIP;
 	std::ios_base::sync_with_stdio(false);
 	std::cin.tie(0);
-	std::cout << "[Server] Please enter PhaseSpace IP address (default: 192.168.1.230): " << '\n';
+	std::cout << "[Server] Please enter PhaseSpace IP address (default: 192.168.1.230): ";
 	std::cin >> phasespaceIP;
 
 	signal(SIGINT, ExitHandler);
