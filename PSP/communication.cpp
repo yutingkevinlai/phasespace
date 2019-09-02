@@ -16,11 +16,6 @@ Communication::~Communication()
 	WSACleanup();
 }
 
-void Communication::ExitHandler()
-{
-	flag = 1;
-}
-
 int Communication::ConnectToPhaseSpace(const std::string& address)
 {
 	if(mOwl.open(address) <= 0 | mOwl.initialize() <= 0)
@@ -63,8 +58,6 @@ void Communication::StartStreaming()
 						mMarkerCount++;
 					}
 				} // end for
-				//std::cout << "[Server] Find " << mMarkerCount << " / ";
-				//std::cout << mMarkers.size() << " markers." << '\n';
 				mRecordData.SetDataPerFrame();
 			} // end if find markers
 		}
@@ -122,9 +115,6 @@ void Communication::SendMsg()
 {
 	if (mSocketData.size() != 0)
 	{
-#ifdef DEBUG
-		//std::cout << "[Socket] Send message" << '\n';
-#endif
 		char buffer[100] = {0};
 		int result;
 		strcpy(buffer, mSocketData.c_str());

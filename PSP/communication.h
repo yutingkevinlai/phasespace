@@ -18,7 +18,6 @@ class Communication
 public: 
 	Communication();
 	~Communication();
-	void ExitHandler();
 
 	// handling PhaseSpace data
 	int ConnectToPhaseSpace(const std::string& address);
