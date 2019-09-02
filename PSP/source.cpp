@@ -18,6 +18,7 @@ void ExitHandler(int s)
 {
 	std::cout << "Ctrl+C detected!" << '\n';
 	gCommunication.flag = 1;
+	gCommunication.CloseSocket();
 }
 
 void PhaseSpaceStreaming(const std::string& address)
@@ -66,6 +67,5 @@ int main(int argc, const char **argv)
 	
 	phasespaceThread.join();
 	socketHostThread.join();
-	gCommunication.CloseSocket();
 	return 0;
 }
