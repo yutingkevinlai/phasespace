@@ -1,6 +1,11 @@
 # phasespace
 This is the project that integrates PhaseSpace motion capture with LabVIEW applications.
 
+## Pre-operation
+* Turn on all computers and machines.
+* Wait for at least one minute so that the machines are all initialized.
+* The whole project is located under Documents/Github/phasespace
+
 ## Required modules
 * PSP (PhaseSpace Project):
 
