@@ -5,6 +5,7 @@ This is the project that integrates PhaseSpace motion capture with LabVIEW appli
 * Turn on all computers and machines.
 * Wait for at least one minute so that the machines are all initialized.
 * The whole project is located under `Documents/Github/phasespace/`.
+* Please *DO NOT* change the tracker profiles because the ID numbers are all set . 
 
 ## Required modules
 * PSP (PhaseSpace Project):
